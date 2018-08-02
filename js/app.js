@@ -14,11 +14,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     for(var cardValue of pairedCardValues){
         let cardElement=document.createElement("li");
         //-------For testing only---------
-        cardElement.classList.add("show");
+        //cardElement.classList.add("show");
         //--------------------------------
         cardElement.classList.add("card");
         let cardFont= document.createElement("i");
         cardElement.appendChild(cardFont);
+        cardElement.addEventListener("click",toggleCard)
         cardFont.classList.add("fa");
         cardFont.classList.add(cardValue.split(' ')[1]);
         frag.appendChild(cardElement);     
@@ -28,6 +29,50 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
    
   });
+
+  function toggleCard(card){
+      let openedCards=[];      
+      let allCards=[];
+      let otherCards=[];
+
+      if(!card.target.classList.contains("open")){
+        
+        openedCards = document.getElementsByClassName("open");
+        if(openedCards.length<2){
+            card.target.classList.add("open");
+            card.target.classList.add("show");
+            //openedCards.push(card);
+            //openedCards = document.getElementsByClassName("open");
+            otherCards=document.querySelectorAll('li:not(.open)');
+            if(openedCards.length>=2){               
+                    //lock other cards;                   
+                    if(otherCards && otherCards.length>0){
+                        for(var otherCard of otherCards){
+                            otherCard.classList.add("disabled");
+                        }
+                    }
+            }
+            else{
+                otherCards=document.querySelectorAll('li:not(.open)');
+                for(var otherCard of otherCards){
+                    otherCard.classList.remove("disabled");
+                }
+            }
+        }
+        else{            
+           
+        } 
+    }
+    else{
+        card.target.classList.remove("open");
+        card.target.classList.remove("show");
+        otherCards=document.querySelectorAll('li:not(.open)');
+        for(var otherCard of otherCards){
+            otherCard.classList.remove("disabled");
+        }
+    }
+
+  }
 
 
 function prepareHTMLTemplates(){

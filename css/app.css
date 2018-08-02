@@ -85,6 +85,10 @@ h1 {
     cursor: default;
     background: red;
     font-size: 33px;
+}
+.disabled{
+    cursor: no-drop!important;
+}
 
 /*
  * Styles for the Score Panel

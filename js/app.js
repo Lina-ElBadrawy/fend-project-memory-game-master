@@ -1,19 +1,52 @@
 /*
  * Create a list that holds all of your cards
  */
+let pairedCardValues=[];
+
 document.addEventListener("DOMContentLoaded", function(event) { 
-    //do work
-    var cards = document.getElementsByClassName('card');
-    shuffle(cards);
-    console.log(cards);
+    //- shuffle the list of cards using the provided "shuffle" method below
+    pairedCardValues = prepareArray();
+    pairedCardValues = shuffle(pairedCardValues);
+
+    //- loop through each card and create its HTML
+    var frag = document.createDocumentFragment();
+    var deck = document.getElementById('deck');
+    for(var cardValue of pairedCardValues){
+        let cardElement=document.createElement("li");
+        //-------For testing only---------
+        cardElement.classList.add("show");
+        //--------------------------------
+        cardElement.classList.add("card");
+        let cardFont= document.createElement("i");
+        cardElement.appendChild(cardFont);
+        cardFont.classList.add("fa");
+        cardFont.classList.add(cardValue.split(' ')[1]);
+        frag.appendChild(cardElement);     
+    }
+    //- add each card's HTML to the page
+    deck.appendChild(frag);
+
+   
   });
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+
+function prepareHTMLTemplates(){
+
+}
+function prepareArray(){
+    let cardValues=["fa fa-diamond",
+    "a fa-paper-plane-o",
+    "fa fa-anchor",
+    "fa fa-bolt",
+    "fa fa-cube",
+    "fa fa-anchor",
+    "a fa-leaf",
+    "fa fa-bicycle"
+    ];
+    let pairedCardValues=[...cardValues,...cardValues];
+    return pairedCardValues;
+
+}
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {

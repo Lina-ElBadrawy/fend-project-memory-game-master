@@ -66,14 +66,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
     else{
         card.target.classList.remove("open");
         card.target.classList.remove("show");
+        card.target.classList.remove("match");
+        card.target.classList.remove("mismatch");
+        
         otherCards=document.querySelectorAll('li:not(.open)');
         for(var otherCard of otherCards){
             otherCard.classList.remove("disabled");
         }
     }
+    if(openedCards.length==2){
+        let isMatching = checkMatching(openedCards)
+        if(isMatching){
+            for(var openCard of openedCards){
+                openCard.classList.add('match');
+            }
+        }
+        else{
+            for(var openCard of openedCards){
+                openCard.classList.add('mismatch');
+            }
+        }
+    }
 
   }
+function checkMatching(openedCards){    
+        return openedCards.length==2 && openedCards[0].firstChild.classList.value==openedCards[1].firstChild.classList.value;
 
+}
 
 function prepareHTMLTemplates(){
 

@@ -76,12 +76,14 @@ h1 {
 }
 
 .deck .card.match {
+    transform: rotateY(0);
     cursor: default;
     background: #02ccba;
     font-size: 33px;
 }
 
 .deck .card.mismatch {
+    transform: rotateY(0);
     cursor: default;
     background: red;
     font-size: 33px;

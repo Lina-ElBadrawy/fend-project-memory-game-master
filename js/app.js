@@ -1,10 +1,19 @@
 /*
  * Create a list that holds all of your cards
  */
-let pairedCardValues=[];
-let openCards=[];
+let pairedCardValues = [];
+let openCards = [];
+let numberOfMoves = 0;
+let score = 0;
 
-document.addEventListener("DOMContentLoaded", function(event) { 
+function init() {
+
+     pairedCardValues = [];
+     openCards = [];    
+     score = 0;
+     numberOfMoves = -1;
+     updateMove();
+
     //- shuffle the list of cards using the provided "shuffle" method below
     pairedCardValues = prepareArray();
     pairedCardValues = shuffle(pairedCardValues);
@@ -12,153 +21,102 @@ document.addEventListener("DOMContentLoaded", function(event) {
     //- loop through each card and create its HTML
     var frag = document.createDocumentFragment();
     var deck = document.getElementById('deck');
-    for(var cardValue of pairedCardValues){
-        let cardElement=document.createElement("li");
+    for (var cardValue of pairedCardValues) {
+        let cardElement = document.createElement("li");
         //-------For testing only---------
         //cardElement.classList.add("show");
         //--------------------------------
         cardElement.classList.add("card");
-        let cardFont= document.createElement("i");
+        let cardFont = document.createElement("i");
         cardElement.appendChild(cardFont);
-        cardElement.addEventListener("click",toggleCard)
+        cardElement.addEventListener("click", toggleCard)
         cardFont.classList.add("fa");
         cardFont.classList.add(cardValue.split(' ')[1]);
-        frag.appendChild(cardElement);     
+        frag.appendChild(cardElement);
     }
     //- add each card's HTML to the page
     deck.appendChild(frag);
+}
 
-   
-  });
-function toggleCard(card){
+document.addEventListener("DOMContentLoaded", function (event) {
+
+    init();
+
+    document.getElementById("reset").addEventListener("click", ResetGame);
+
+});
+function updateScore() {
+
+}
+function updateMove() {
+    numberOfMoves++;
+    document.getElementById("moves").innerText=numberOfMoves;
+
+}
+function ResetGame() {
+    debugger;
+    var deck = document.getElementById('deck');
+    deck.innerHTML="";
+    init();
+
+}
+function toggleCard(card) {
 
     card = card.target;
     //If user tend to open a card
-    if(!card.classList.contains("open")){
+    if (!card.classList.contains("open")) {
         // Open card action : - Set class= open , show - Add card to open list
         card.classList.add("open");
         card.classList.add("show");
         openCards.push(card);
-        if(openCards&&openCards.length>0 && openCards.length%2==0){
-            let card1=openCards[openCards.length-2];
-            let card2=openCards[openCards.length-1];
-            let match= checkMatching(card1,card2);
-            if(match){
-                card1.classList.add('match'); 
-                card2.classList.add('match');                
+        if (openCards && openCards.length > 0 && openCards.length % 2 == 0) {
+            let card1 = openCards[openCards.length - 2];
+            let card2 = openCards[openCards.length - 1];
+            let match = checkMatching(card1, card2);
+            if (match) {
+                card1.classList.add('match');
+                card2.classList.add('match');
             }
-            else{
+            else {
                 card.classList.add('mismatch');
                 setTimeout(() => {
                     card1.classList.remove("open");
                     card1.classList.remove("show");
-                    card1.classList.remove("mismatch");  
-                    
+                    card1.classList.remove("mismatch");
+
                     card2.classList.remove("open");
                     card2.classList.remove("show");
-                    card2.classList.remove("mismatch");  
-                    
+                    card2.classList.remove("mismatch");
+
                 }, 1000);
                 openCards.splice(-2, 2);
-                
-            }
 
-            if(openCards.length==pairedCardValues.length){
+            }
+            updateMove();
+            if (openCards.length == pairedCardValues.length) {
                 alert("You won");
             }
 
         }
-        
+
     }
 
 }
-  function toggle(card){
-      let openedCards=[];   
-      let openCards=[];
-      let openedCardsList=[];   
-      let allCards=[];
-      let otherCards=[];
-
-      if(!card.target.classList.contains("open")){
-        
-        openedCards = document.getElementsByClassName("open");
-        if(openedCards.length<2){
-            card.target.classList.add("open");
-            card.target.classList.add("show");
-
-            if(openedCards.length>=2){
-                
-            }
-
-            //openedCards.push(card);
-            //openedCards = document.getElementsByClassName("open");
-           
-           /*Disable all other cards
-            otherCards=document.querySelectorAll('li:not(.open)');
-            if(openedCards.length>=2){               
-                    //lock other cards;                   
-                    if(otherCards && otherCards.length>0){
-                        for(var otherCard of otherCards){
-                            otherCard.classList.add("disabled");
-                        }
-                    }
-            }
-            else{
-                otherCards=document.querySelectorAll('li:not(.open)');
-                for(var otherCard of otherCards){
-                    otherCard.classList.remove("disabled");
-                }
-            }*/
-        }
-        else{            
-           
-        } 
-    }
-    else{
-        card.target.classList.remove("open");
-        card.target.classList.remove("show");
-        card.target.classList.remove("match");
-        card.target.classList.remove("mismatch");
-        
-        otherCards=document.querySelectorAll('li:not(.open)');
-        for(var otherCard of otherCards){
-            otherCard.classList.remove("disabled");
-        }
-    }
-    if(openedCards.length==2){
-        let isMatching = checkMatching(openedCards)
-        if(isMatching){
-            for(var openCard of openedCards){
-                openCard.classList.add('match');
-            }
-        }
-        else{
-            for(var openCard of openedCards){
-                openCard.classList.add('mismatch');
-            }
-        }
-    }
-
-  }
-function checkMatching(card1, card2){    
-        return  card1.firstChild.classList.value==card2.firstChild.classList.value;
-
+function checkMatching(card1, card2) {
+    return card1.firstChild.classList.value == card2.firstChild.classList.value;
 }
 
-function prepareHTMLTemplates(){
-
-}
-function prepareArray(){
-    let cardValues=["fa fa-diamond",
-    "a fa-paper-plane-o",
-    "fa fa-anchor",
-    "fa fa-bolt",
-    "fa fa-cube",
-    "fa fa-bomb",
-    "a fa-leaf",
-    "fa fa-bicycle"
+function prepareArray() {
+    let cardValues = ["fa fa-diamond",
+        "a fa-paper-plane-o",
+        "fa fa-anchor",
+        "fa fa-bolt",
+        "fa fa-cube",
+        "fa fa-bomb",
+        "a fa-leaf",
+        "fa fa-bicycle"
     ];
-    let pairedCardValues=[...cardValues,...cardValues];
+    let pairedCardValues = [...cardValues, ...cardValues];
     return pairedCardValues;
 
 }

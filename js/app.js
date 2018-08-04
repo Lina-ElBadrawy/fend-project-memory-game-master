@@ -2,6 +2,7 @@
  * Create a list that holds all of your cards
  */
 let pairedCardValues=[];
+let openCards=[];
 
 document.addEventListener("DOMContentLoaded", function(event) { 
     //- shuffle the list of cards using the provided "shuffle" method below
@@ -29,9 +30,52 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
    
   });
+function toggleCard(card){
 
-  function toggleCard(card){
-      let openedCards=[];      
+    card = card.target;
+    //If user tend to open a card
+    if(!card.classList.contains("open")){
+        // Open card action : - Set class= open , show - Add card to open list
+        card.classList.add("open");
+        card.classList.add("show");
+        openCards.push(card);
+        if(openCards&&openCards.length>0 && openCards.length%2==0){
+            let card1=openCards[openCards.length-2];
+            let card2=openCards[openCards.length-1];
+            let match= checkMatching(card1,card2);
+            if(match){
+                card1.classList.add('match'); 
+                card2.classList.add('match');                
+            }
+            else{
+                card.classList.add('mismatch');
+                setTimeout(() => {
+                    card1.classList.remove("open");
+                    card1.classList.remove("show");
+                    card1.classList.remove("mismatch");  
+                    
+                    card2.classList.remove("open");
+                    card2.classList.remove("show");
+                    card2.classList.remove("mismatch");  
+                    
+                }, 1000);
+                openCards.splice(-2, 2);
+                
+            }
+
+            if(openCards.length==pairedCardValues.length){
+                alert("You won");
+            }
+
+        }
+        
+    }
+
+}
+  function toggle(card){
+      let openedCards=[];   
+      let openCards=[];
+      let openedCardsList=[];   
       let allCards=[];
       let otherCards=[];
 
@@ -41,8 +85,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
         if(openedCards.length<2){
             card.target.classList.add("open");
             card.target.classList.add("show");
+
+            if(openedCards.length>=2){
+                
+            }
+
             //openedCards.push(card);
             //openedCards = document.getElementsByClassName("open");
+           
+           /*Disable all other cards
             otherCards=document.querySelectorAll('li:not(.open)');
             if(openedCards.length>=2){               
                     //lock other cards;                   
@@ -57,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 for(var otherCard of otherCards){
                     otherCard.classList.remove("disabled");
                 }
-            }
+            }*/
         }
         else{            
            
@@ -89,8 +140,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
   }
-function checkMatching(openedCards){    
-        return openedCards.length==2 && openedCards[0].firstChild.classList.value==openedCards[1].firstChild.classList.value;
+function checkMatching(card1, card2){    
+        return  card1.firstChild.classList.value==card2.firstChild.classList.value;
 
 }
 
@@ -103,7 +154,7 @@ function prepareArray(){
     "fa fa-anchor",
     "fa fa-bolt",
     "fa fa-cube",
-    "fa fa-anchor",
+    "fa fa-bomb",
     "a fa-leaf",
     "fa fa-bicycle"
     ];

@@ -36,7 +36,8 @@
             <div id="reset" class="restart">
                 <i class="fa fa-repeat"></i>
             </div>
-            Timer: <span id="timer" class="moves"></span>
+            Timer:
+            <span id="timer" class="moves"></span>
         </section>
 
         <ul id="deck" class="deck">
@@ -89,17 +90,26 @@
                 <i class="fa fa-cube"></i>
             </li>-->
         </ul>
-    </div>
 
-    <div id="winPopup" class="win-popup">
-        <div class=""></div>
-        <div class=""></div>
-        <div class=""></div>
-        <div class=""></div>
-        <div class="">
-            <input type="button" value="Play Again" click="init()"/>
+        <div id="winPopup" class="win-popup hide">
+            <div class="check">
+                <i class="fa fa-check-circle"></i>
+            </div>
+            <div class="content">
+                <div class="title">Congratulations! You Won!</div>
+                <div id="winInfo" class="win-info">
+                    <div class="">Wow</div>
+                </div>
+
+            </div>
+
+            <div>
+                <button class="btn btn-playagain" type="button" onclick="ResetGame()">Play Again</button>
+            </div>
         </div>
     </div>
+
+
 
     <script src="js/app.js"></script>
 </body>

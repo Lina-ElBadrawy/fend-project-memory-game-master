@@ -5,9 +5,10 @@ let pairedCardValues = [];
 let openCards = [];
 let numberOfMoves = 0;
 let score = 0;
-let gameEnded=false;
+let gameEnded = false;
 var startTime;
 var timerInterval;
+var totalTime="";
 
 function init() {
 
@@ -15,7 +16,7 @@ function init() {
     openCards = [];
     score = 0;
     numberOfMoves = -1;
-    gameEnded=false;
+    gameEnded = false;
 
     updateMove();
 
@@ -41,6 +42,9 @@ function init() {
     }
     //- add each card's HTML to the page
     deck.appendChild(frag);
+
+    //hide("winPopup");
+    show("deck");
     initTimer();
 }
 
@@ -51,18 +55,19 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 });
 function initTimer() {
-  let startTime= new Date().getTime();
-  //console.log("Timer started") 
-     timerInterval = setInterval(function () {
+    let startTime = new Date().getTime();
+    //console.log("Timer started") 
+    timerInterval = setInterval(function () {
         var now = new Date().getTime();
         var t = now - startTime;
         var days = Math.floor(t / (1000 * 60 * 60 * 24));
         var hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((t % (1000 * 60)) / 1000);
-        document.getElementById("timer").innerHTML =  minutes + "m " + seconds + "s ";
+        totalTime= minutes + "m " + seconds + "s ";
+        document.getElementById("timer").innerHTML =totalTime;
         if (gameEnded) {
-            clearInterval(timerInterval);    
+            clearInterval(timerInterval);
             //console.log(timerInterval," cleared inside intrval")           
         }
     }, 1000);
@@ -77,10 +82,10 @@ function updateMove() {
 
 }
 function ResetGame() {
-    gameEnded=true;
-  //  console.logtimerInterval, " before clearing"
-    clearInterval(timerInterval);    
-   // console.log(timerInterval," cleared")        
+    gameEnded = true;
+    //  console.logtimerInterval, " before clearing"
+    clearInterval(timerInterval);
+    // console.log(timerInterval," cleared")        
     var deck = document.getElementById('deck');
     deck.innerHTML = "";
     init();
@@ -120,10 +125,12 @@ function toggleCard(card) {
             }
             updateMove();
             if (openCards.length == pairedCardValues.length) {
-                gameEnded=true;
-                clearInterval(timerInterval); 
-                //console.log(timerInterval," cleared- win")              
-                alert("You won");
+                gameEnded = true;
+                clearInterval(timerInterval);
+                hide("deck");
+                show("winPopup");
+                document.getElementById("winInfo").innerText=`With ${numberOfMoves} Moves and ${score} Starts in ${totalTime}`;
+
             }
 
         }
@@ -131,6 +138,17 @@ function toggleCard(card) {
     }
 
 }
+function show(element) {
+    let e = document.getElementById(element);
+    if (e)
+    document.getElementById(element).classList.remove('hide');
+}
+function hide(element) {
+    let e = document.getElementById(element);
+    if (e)
+        document.getElementById(element).classList.add('hide');
+}
+
 function checkMatching(card1, card2) {
     return card1.firstChild.classList.value == card2.firstChild.classList.value;
 }

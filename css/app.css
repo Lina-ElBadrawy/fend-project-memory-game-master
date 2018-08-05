@@ -118,3 +118,49 @@ h1 {
     float: right;
     cursor: pointer;
 }
+.win-popup{
+    
+    text-align: center;
+}
+.win-popup .check{
+    
+    font-size: 6em;
+    color: yellowgreen;
+
+}
+.win-popup .btn-playagain{
+    background: #26a297;
+    color: white;
+}
+.win-popup .content{
+    font-family: calibri,sans-serif;
+    padding: 10px;
+}
+.win-popup .title{
+    font-size: 1.4em;    
+    padding: 0px 0px 10px 0px;
+    font-weight: bold;
+    color: #716f6f;
+}
+.win-popup .win-onfo{
+    color: grey;
+}
+.btn{
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px;
+   
+}
+.hide{
+    display: none!important;
+}
+

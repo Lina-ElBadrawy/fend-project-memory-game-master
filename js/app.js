@@ -139,7 +139,9 @@ function toggleCard(card) {
                 card2.classList.add('match');
             }
             else {
-                card.classList.add('mismatch');
+                card1.classList.add('mismatch');
+                card2.classList.add('mismatch');
+
                 setTimeout(() => {
                     card1.classList.remove("open");
                     card1.classList.remove("show");

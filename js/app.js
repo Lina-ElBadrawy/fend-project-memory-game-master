@@ -5,14 +5,19 @@ let pairedCardValues = [];
 let openCards = [];
 let numberOfMoves = 0;
 let score = 0;
+let gameEnded=false;
+var startTime;
+var timerInterval;
 
 function init() {
 
-     pairedCardValues = [];
-     openCards = [];    
-     score = 0;
-     numberOfMoves = -1;
-     updateMove();
+    pairedCardValues = [];
+    openCards = [];
+    score = 0;
+    numberOfMoves = -1;
+    gameEnded=false;
+
+    updateMove();
 
     //- shuffle the list of cards using the provided "shuffle" method below
     pairedCardValues = prepareArray();
@@ -36,27 +41,48 @@ function init() {
     }
     //- add each card's HTML to the page
     deck.appendChild(frag);
+    initTimer();
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {
 
     init();
-
     document.getElementById("reset").addEventListener("click", ResetGame);
 
 });
+function initTimer() {
+  let startTime= new Date().getTime();
+  //console.log("Timer started") 
+     timerInterval = setInterval(function () {
+        var now = new Date().getTime();
+        var t = now - startTime;
+        var days = Math.floor(t / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((t % (1000 * 60)) / 1000);
+        document.getElementById("timer").innerHTML =  minutes + "m " + seconds + "s ";
+        if (gameEnded) {
+            clearInterval(timerInterval);    
+            //console.log(timerInterval," cleared inside intrval")           
+        }
+    }, 1000);
+
+}
 function updateScore() {
 
 }
 function updateMove() {
     numberOfMoves++;
-    document.getElementById("moves").innerText=numberOfMoves;
+    document.getElementById("moves").innerText = numberOfMoves;
 
 }
 function ResetGame() {
-    debugger;
+    gameEnded=true;
+  //  console.logtimerInterval, " before clearing"
+    clearInterval(timerInterval);    
+   // console.log(timerInterval," cleared")        
     var deck = document.getElementById('deck');
-    deck.innerHTML="";
+    deck.innerHTML = "";
     init();
 
 }
@@ -94,6 +120,9 @@ function toggleCard(card) {
             }
             updateMove();
             if (openCards.length == pairedCardValues.length) {
+                gameEnded=true;
+                clearInterval(timerInterval); 
+                //console.log(timerInterval," cleared- win")              
                 alert("You won");
             }
 

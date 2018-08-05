@@ -164,3 +164,9 @@ h1 {
     display: none!important;
 }
 
+.remove-star {
+    color:white;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+

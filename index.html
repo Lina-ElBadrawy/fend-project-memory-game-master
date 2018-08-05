@@ -18,10 +18,9 @@
         </header>
 
         <section class="score-panel">
-            <ul class="stars">
-                <li>
-                    <i class="fa fa-star fa-stack-2x"></i>
-                    <i class="fa fa-star fa-stack-1x fa-inverse"></i>
+            <ul id="stars" class="stars">               
+                <li>                   
+                    <i class="fa fa-star"></i>
                 </li>
                 <li>
                     <i class="fa fa-star"></i>
@@ -91,24 +90,24 @@
             </li>-->
         </ul>
 
-       
+
     </div>
     <div id="winPopup" class="win-popup hide">
-            <div class="check">
-                <i class="fa fa-check-circle"></i>
-            </div>
-            <div class="content">
-                <div class="title">Congratulations! You Won!</div>
-                <div id="winInfo" class="win-info">
-                    <div class="">Wow</div>
-                </div>
-
-            </div>
-
-            <div>
-                <button class="btn btn-playagain" type="button" onclick="ResetGame()">Play Again</button>
-            </div>
+        <div class="check">
+            <i class="fa fa-check-circle"></i>
         </div>
+        <div class="content">
+            <div class="title">Congratulations! You Won!</div>
+            <div id="winInfo" class="win-info">
+                <div class="">Wow</div>
+            </div>
+
+        </div>
+
+        <div>
+            <button class="btn btn-playagain" type="button" onclick="ResetGame()">Play Again</button>
+        </div>
+    </div>
 
 
     <script src="js/app.js"></script>

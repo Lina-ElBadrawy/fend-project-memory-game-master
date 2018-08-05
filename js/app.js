@@ -8,7 +8,8 @@ let score = 0;
 let gameEnded = false;
 var startTime;
 var timerInterval;
-var totalTime="";
+var totalTime = "";
+var starStep = 10;
 
 function init() {
 
@@ -19,6 +20,7 @@ function init() {
     gameEnded = false;
 
     updateMove();
+    updateScore(true);
 
     //- shuffle the list of cards using the provided "shuffle" method below
     pairedCardValues = prepareArray();
@@ -44,6 +46,7 @@ function init() {
     deck.appendChild(frag);
 
     //hide("winPopup");
+
     show("gameBoard");
     initTimer();
 }
@@ -64,8 +67,8 @@ function initTimer() {
         var hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((t % (1000 * 60)) / 1000);
-        totalTime= minutes + "m " + seconds + "s ";
-        document.getElementById("timer").innerHTML =totalTime;
+        totalTime = minutes + "m " + seconds + "s ";
+        document.getElementById("timer").innerHTML = totalTime;
         if (gameEnded) {
             clearInterval(timerInterval);
             //console.log(timerInterval," cleared inside intrval")           
@@ -73,7 +76,37 @@ function initTimer() {
     }, 1000);
 
 }
-function updateScore() {
+function updateScore(reset) {
+    let starsContainer = document.getElementById("stars");
+
+    if (reset) {      
+        for (var i = 0; i < starsContainer.children.length; i++) {
+            star = starsContainer.children[i];
+            star.classList.remove("remove-star");
+        }
+    }
+    else {
+        var takeStarStep = (numberOfMoves % starStep == 1) && (numberOfMoves <= ((starStep * 3) + 1));
+        if (takeStarStep) {
+           
+            if (numberOfMoves < starStep) {//0,1,2,3
+                score = 3;
+            }
+            else if (numberOfMoves >= starStep && numberOfMoves < (starStep * 2)) {//4,5,6,7
+                score = 2;
+                starsContainer.children[0].classList.add("remove-star");
+            }
+            else if (numberOfMoves >= (starStep * 2) && numberOfMoves <= (starStep * 3)) {//8,9,10,11,12
+                score = 1;
+                starsContainer.children[1].classList.add("remove-star");
+
+            }
+            else {//>13
+                score = 0;
+                starsContainer.children[2].classList.add("remove-star");
+            }
+        }
+    }
 
 }
 function updateMove() {
@@ -124,12 +157,13 @@ function toggleCard(card) {
 
             }
             updateMove();
+            updateScore(false);
             if (openCards.length == pairedCardValues.length) {
                 gameEnded = true;
                 clearInterval(timerInterval);
                 hide("gameBoard");
                 show("winPopup");
-                document.getElementById("winInfo").innerText=`With ${numberOfMoves} Moves and ${score} Starts in ${totalTime}`;
+                document.getElementById("winInfo").innerText = `With ${numberOfMoves} Moves and ${score} Starts in ${totalTime}`;
 
             }
 
@@ -141,7 +175,7 @@ function toggleCard(card) {
 function show(element) {
     let e = document.getElementById(element);
     if (e)
-    document.getElementById(element).classList.remove('hide');
+        document.getElementById(element).classList.remove('hide');
 }
 function hide(element) {
     let e = document.getElementById(element);

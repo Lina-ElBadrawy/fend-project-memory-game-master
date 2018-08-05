@@ -44,7 +44,7 @@ function init() {
     deck.appendChild(frag);
 
     //hide("winPopup");
-    show("deck");
+    show("gameBoard");
     initTimer();
 }
 
@@ -127,7 +127,7 @@ function toggleCard(card) {
             if (openCards.length == pairedCardValues.length) {
                 gameEnded = true;
                 clearInterval(timerInterval);
-                hide("deck");
+                hide("gameBoard");
                 show("winPopup");
                 document.getElementById("winInfo").innerText=`With ${numberOfMoves} Moves and ${score} Starts in ${totalTime}`;
 

@@ -1,6 +1,5 @@
-/*
- * Create a list that holds all of your cards
- */
+//Global Variables
+
 let pairedCardValues = [];
 let openCards = [];
 let numberOfMoves = 0;
@@ -8,8 +7,8 @@ let score = 0;
 let gameEnded = false;
 var startTime;
 var timerInterval;
-var totalTime = "";
-var starStep = 10;
+let totalTime = "";
+let starStep = 10;
 
 function init() {
 
@@ -45,21 +44,19 @@ function init() {
     //- add each card's HTML to the page
     deck.appendChild(frag);
 
-    //hide("winPopup");
-
     show("gameBoard");
-    initTimer();
+
+    //Start the Timer
+    initTimer();    
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {
 
-    init();
-    document.getElementById("reset").addEventListener("click", ResetGame);
+    init();  
 
 });
 function initTimer() {
     let startTime = new Date().getTime();
-    //console.log("Timer started") 
     timerInterval = setInterval(function () {
         var now = new Date().getTime();
         var t = now - startTime;

@@ -15,7 +15,7 @@
   - If the cards do not match, both cards are flipped face down.
    -The game ends once all cards have been correctly match
  
- ## Download and Intall Memory Game
+ ## Download and Install Memory Game
  - Use the following command to get a clone of working Memory Game
  
       `$git clone https://github.com/Lina-ElBadrawy/fend-project-memory-game-master`
